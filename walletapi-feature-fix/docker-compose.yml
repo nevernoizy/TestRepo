@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Сервис для PostgreSQL
+  db:
+    image: postgres:17
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: walletapi
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    container_name: myapp
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/walletapi
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
